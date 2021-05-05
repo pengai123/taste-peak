@@ -12,12 +12,14 @@ if (process.env.NODE_ENV === 'development') {
 }
 const PORT = process.env.PORT || 3000
 const saltRounds = 10
-
+const corsOptions = {
+	credentials: true,
+	origin: process.env.NODE_ENV === "development" ? "http://localhost:3010" : "https://www.tastepeak.com"
+}
 app.use(cookieParser())
 app.use(bp.json())
 app.use(bp.urlencoded({ extended: true }))
-app.use(cors())
-// app.use(express.static("./client/dist"))
+app.use(cors(corsOptions))
 
 console.log('process.env.NODE_ENV:', process.env.NODE_ENV)
 
@@ -56,6 +58,7 @@ app.get("/api/accounts/:username", (req, res) => {
 
 //handle log in
 app.post("/api/login", (req, res) => {
+	console.log('req.body', req.body)
 	dbHandlers.findAccount({ username: req.body.username }, async (err, result) => {
 		if (err) { return res.send(err) }
 		if (result === null) {
@@ -64,6 +67,7 @@ app.post("/api/login", (req, res) => {
 			const match = await bcrypt.compare(req.body.password, result.password)
 			if (match) {
 				//generate an access token
+				console.log('asdasd')
 				let accessToken = jwt.sign({ username: result.username, email: result.email }, accessTokenSecret);
 				//create a token cookie that expires atfer 3 days
 				res.cookie("accessToken", accessToken, { httpOnly: true, maxAge: 3 * 24 * 60 * 60 * 1000 })
@@ -117,10 +121,5 @@ app.get("/api/restaurants/:loc", (req, res) => {
 				})
 		})
 })
-
-// Handles react router and any requests that don't match the ones above
-// app.get('*', (req, res) => {
-// 	res.sendFile(__dirname + '/client/dist/index.html');
-// });
 
 app.listen(PORT, () => console.log(`server is listening on port ${PORT}...`))

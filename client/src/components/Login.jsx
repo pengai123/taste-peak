@@ -11,9 +11,9 @@ export default function Login({ history }) {
 
 	const handleSubmit = e => {
 		e.preventDefault();
-
 		if (username && password) {
-			axios.post("https://taste-peak-server.herokuapp.com/api/login", { username, password })
+			console.log("trying login")
+			axios.post("https://taste-peak-server.herokuapp.com/api/login", { username, password }, {withCredentials: true})
 				.then(({ data }) => {
 					if (data.status === "failure") {
 						setFormMsg(data.message)

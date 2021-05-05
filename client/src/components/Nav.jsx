@@ -49,7 +49,7 @@ export default function Nav() {
 	}
 
 	const handleLogout = () => {
-		axios.get("https://taste-peak-server.herokuapp.com/api/logout")
+		axios.get("https://taste-peak-server.herokuapp.com/api/logout", {withCredentials: true})
 			.then(({ data }) => {
 				if (data.status === "success") {
 					setCurrentUser(undefined);
