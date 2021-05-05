@@ -96,6 +96,7 @@ export default function Nav() {
 				<div className="line-3 menu-icon-line"></div>
 			</div>
 			<ul className="navbar-links" ref={navLinksRef}>
+				<li className="home-li navbar-link"><a href="/">Home</a></li>
 				{!currentUser && <li className="login-li navbar-link"><a href="/login">Login</a></li>}
 				{!currentUser && <li className="signup-li navbar-link"><a href="/signup">Sign Up</a></li>}
 				<li className="about-li navbar-link"><a href="/about">About</a></li>

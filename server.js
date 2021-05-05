@@ -29,8 +29,8 @@ const zomatoConfig = {
 
 const accessTokenSecret = process.env.access_token_secret;
 
-app.get("/hello", (req, res) => {
-	res.send(`<h1>HELLO FROM SERVER</h1>`)
+app.get("/", (req, res) => {
+	res.send(`<h2>Welcome to Taste Peak Server!</h2>`)
 })
 
 //create new account

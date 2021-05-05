@@ -22,6 +22,11 @@ export default function Home() {
 		}
 	}
 
+	useEffect(() => {
+		const homeLink = document.querySelector(".home-li")
+		homeLink.classList.add("active");
+	}, [])
+
 	return (
 		<div className="home-page page-container">
 			<video className="bg-video" src="/food.mp4" autoPlay muted loop playsInline></video>
