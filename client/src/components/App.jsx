@@ -20,6 +20,7 @@ export default function App() {
 
 	useEffect(() => {
 		axios.get("https://taste-peak-server.herokuapp.com/api/current-user", {withCredentials: true})
+		// axios.get("http://localhost:3000/api/current-user", {withCredentials: true})
 			.then(({ data }) => {
 				console.log('user info:', data)
 				setCurrentUser(data.username)
