@@ -23,9 +23,9 @@ app.use(cors(corsOptions))
 
 console.log('process.env.NODE_ENV:', process.env.NODE_ENV)
 
-if( process.env.NODE_ENV !== "development" ){
-	app.set("trust proxy", 1)
-}
+// if( process.env.NODE_ENV !== "development" ){
+// 	app.set("trust proxy", 1)
+// }
 
 const zomatoConfig = {
 	headers: {
@@ -73,6 +73,7 @@ app.post("/api/login", (req, res) => {
 				let accessToken = jwt.sign({ username: result.username, email: result.email }, accessTokenSecret);
 				//create a token cookie that expires atfer 3 days
 				res.cookie("accessToken", accessToken, { httpOnly: true, maxAge: 3 * 24 * 60 * 60 * 1000, sameSite: "None", secure: true })
+				//, sameSite: "None", secure: true
 				res.send({ status: "success", data: { username: result.username, email: result.email } })
 			} else {
 				res.send({ status: "failure", message: "Invalid Password" })
