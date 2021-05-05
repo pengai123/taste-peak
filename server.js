@@ -23,10 +23,6 @@ app.use(cors(corsOptions))
 
 console.log('process.env.NODE_ENV:', process.env.NODE_ENV)
 
-// if( process.env.NODE_ENV !== "development" ){
-// 	app.set("trust proxy", 1)
-// }
-
 const zomatoConfig = {
 	headers: {
 		"user-key": process.env.zomato_user_key
@@ -47,7 +43,8 @@ app.post("/api/accounts", async (req, res) => {
 	dbHandlers.newAccount({ ...req.body, password }, (err, result) => {
 		if (err) { return res.send({ status: "failure", error: err }) }
 		let accessToken = jwt.sign({ username: req.body.username, email: req.body.email }, accessTokenSecret)
-		res.cookie("accessToken", accessToken, { httpOnly: true, maxAge: 3 * 24 * 60 * 60 * 1000 })
+		//create a token cookie that expires atfer 3 days
+		res.cookie("accessToken", accessToken, { httpOnly: true, maxAge: 3 * 24 * 60 * 60 * 1000, sameSite: "None", secure: true })
 		res.send({ status: "success", data: result })
 	})
 })
