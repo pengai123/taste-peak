@@ -98,7 +98,7 @@ app.get("/api/current-user", (req, res) => {
 
 //handle log out
 app.get("/api/logout", (req, res) => {
-	res.clearCookie("accessToken")
+	res.clearCookie("accessToken", { httpOnly: true, sameSite: "None", secure: true })
 	res.send({ status: "success" })
 })
 
