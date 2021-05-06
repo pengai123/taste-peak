@@ -12,7 +12,7 @@ export default function Login({ history }) {
 	const handleSubmit = e => {
 		e.preventDefault();
 		if (username && password) {
-			axios.post("http://taste-peak-server.herokuapp.com/api/login", { username, password }, {withCredentials: true})
+			axios.post("https://api.tastepeak.com/api/login", { username, password }, {withCredentials: true})
 			// axios.post("http://localhost:3000/api/login", { username, password }, {withCredentials: true})
 				.then(({ data }) => {
 					if (data.status === "failure") {
