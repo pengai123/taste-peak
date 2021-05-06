@@ -18,7 +18,7 @@ export default function Signup({ history }) {
 		if (username && email && password && passwordConfirm) {
 			if (password === passwordConfirm) {
 				let userObj = { username, email, password };
-				axios.post("https://api.tastepeak.com/api/accounts", userObj, {withCredentials: true})
+				axios.post("https://taste-peak-server.herokuapp.com/api/accounts", userObj, {withCredentials: true})
 					.then(({ data }) => {
 						console.log("sign up res", data)
 						if (data.status === "success") {

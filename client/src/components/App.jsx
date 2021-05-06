@@ -19,7 +19,7 @@ export default function App() {
 	const [defaultLocation, setDefaultLocation] = useState("Phoenix")
 
 	useEffect(() => {
-		axios.get("https://api.tastepeak.com/api/current-user", {withCredentials: true})
+		axios.get("https://taste-peak-server.herokuapp.com/api/current-user", {withCredentials: true})
 		// axios.get("http://localhost:3000/api/current-user", {withCredentials: true})
 			.then(({ data }) => {
 				console.log('user info:', data)
