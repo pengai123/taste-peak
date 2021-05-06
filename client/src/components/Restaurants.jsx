@@ -31,7 +31,7 @@ export default function Restaurants({ match }) {
 	const search = (loc = defaultLocation, kw = "", start = 0) => {
 
 		setIsLoading(true);
-		axios.get(`https://taste-peak-server.herokuapp.com/api/restaurants/${loc}?kw=${kw}&start=${start}`)
+		axios.get(`http://api.tastepeak.com/restaurants/${loc}?kw=${kw}&start=${start}`)
 			.then(result => {
 				console.log('result.data', result.data)
 				setRestaurants(result.data.restaurants);
