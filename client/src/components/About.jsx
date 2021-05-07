@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import SkillMarquee from "./SkillMarquee.jsx"
 
 export default function About() {
 
@@ -72,6 +73,8 @@ export default function About() {
 							<a href="mailto:aaaipeng@gmail.com">aaaipeng@gmail.com</a>
 						</div>
 					</div>
+					<h2>My Skills</h2>
+					<SkillMarquee />
 				</div>
 			</div>
 		</div>
