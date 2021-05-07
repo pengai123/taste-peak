@@ -891,7 +891,7 @@
   top: 0;
   height: 100%;
   width: 80px;
-  background: linear-gradient(90deg, cornflowerblue, transparent);
+  background: linear-gradient(90deg, cornflowerblue, rgba(255, 255, 255, 0.001));
   z-index: 1;
 }
 
@@ -902,7 +902,7 @@
   top: 0;
   height: 100%;
   width: 80px;
-  background: linear-gradient(270deg, cornflowerblue, transparent);
+  background: linear-gradient(270deg, cornflowerblue, rgba(255, 255, 255, 0.001));
 }
 .marquee-content {
   list-style: none;
