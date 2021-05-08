@@ -891,7 +891,8 @@
   top: 0;
   height: 100%;
   width: 80px;
-  background: linear-gradient(90deg, #6495ed, rgba(255, 255, 255, 0));
+  /* background: linear-gradient(90deg, #6495ed, rgba(255, 255, 255, 0)); */
+	background: linear-gradient(90deg, rgba(100, 149, 237, 1), rgba(100, 149, 237, 0));
   z-index: 1;
 }
 
@@ -902,7 +903,8 @@
   top: 0;
   height: 100%;
   width: 80px;
-  background: linear-gradient(270deg, #6495ed, rgba(255, 255, 255, 0));
+  /* background: linear-gradient(270deg, #6696ee, rgba(255, 255, 255, 0)); */
+	background: linear-gradient(270deg, rgba(100, 149, 237, 1), rgba(100, 149, 237, 0));
 }
 .marquee-content {
   list-style: none;
