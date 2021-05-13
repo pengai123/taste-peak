@@ -31,7 +31,13 @@ export default function Restaurants({ match }) {
 	const search = (loc = defaultLocation, kw = "", start = 0) => {
 
 		setIsLoading(true);
-		axios.get(`https://api.tastepeak.com/api/restaurants/${loc}?kw=${kw}&start=${start}`)
+		let restaurantApiUrl;
+		if (process.env.NODE_ENV === "development") {
+			restaurantApiUrl = `http://localhost:3000/api/restaurants/${loc}?kw=${kw}&start=${start}`
+		} else {
+			restaurantApiUrl = `https://api.tastepeak.com/api/restaurants/${loc}?kw=${kw}&start=${start}`
+		}
+		axios.get(restaurantApiUrl)
 			.then(result => {
 				console.log('result.data', result.data)
 				setRestaurants(result.data.restaurants);
