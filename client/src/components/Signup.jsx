@@ -17,8 +17,15 @@ export default function Signup({ history }) {
 
 		if (username && email && password && passwordConfirm) {
 			if (password === passwordConfirm) {
+				let signupApiUrl;
+				if (process.env.NODE_ENV === "development") {
+					signupApiUrl = `http://localhost:3000/api/accounts`
+				} else {
+					signupApiUrl = `https://api.tastepeak.com/api/accounts`
+				}
 				let userObj = { username, email, password };
-				axios.post("https://api.tastepeak.com/api/accounts", userObj, {withCredentials: true})
+				// axios.post("https://api.tastepeak.com/api/accounts", userObj, { withCredentials: true })
+				axios.post(signupApiUrl, userObj, { withCredentials: true })
 					.then(({ data }) => {
 						console.log("sign up res", data)
 						if (data.status === "success") {

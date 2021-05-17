@@ -49,8 +49,14 @@ export default function Nav() {
 	}
 
 	const handleLogout = () => {
-		axios.get("https://api.tastepeak.com/api/logout", {withCredentials: true})
-		// axios.get("http://localhost:3000/api/logout", {withCredentials: true})
+		let logoutApiUrl;
+		if (process.env.NODE_ENV === "development") {
+			logoutApiUrl = `http://localhost:3000/api/logout`
+		} else {
+			logoutApiUrl = `https://api.tastepeak.com/api/logout`
+		}
+		axios.get(logoutApiUrl, { withCredentials: true })
+			// axios.get("http://localhost:3000/api/logout", {withCredentials: true})
 			.then(({ data }) => {
 				if (data.status === "success") {
 					setCurrentUser(undefined);

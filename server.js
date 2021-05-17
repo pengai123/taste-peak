@@ -61,21 +61,17 @@ app.get("/api/accounts/:username", (req, res) => {
 app.post("/api/login", (req, res) => {
 	dbHandlers.findAccount({ username: req.body.username }, async (err, result) => {
 		if (err) { return res.send(err) }
-		if (result === null) {
-			res.send({ status: "failure", message: "Username does not exist" })
-		} else {
-			const match = await bcrypt.compare(req.body.password, result.password)
-			if (match) {
-				//generate an access token
-				let accessToken = jwt.sign({ username: result.username, email: result.email }, accessTokenSecret);
-				//create a token cookie that expires atfer 3 days
-				res.cookie("accessToken", accessToken, { httpOnly: true, maxAge: 3 * 24 * 60 * 60 * 1000, sameSite: "None", secure: true })
-				//, sameSite: "None", secure: true
-				res.send({ status: "success", data: { username: result.username, email: result.email } })
-			} else {
-				res.send({ status: "failure", message: "Invalid Password" })
-			}
-		}
+		//username doesn't exist
+		if (result === null) { return res.send({ status: "failure", message: "Username does not exist" }) }
+		const match = await bcrypt.compare(req.body.password, result.password)
+		//Invalid Password
+		if (!match) { return res.send({ status: "failure", message: "Invalid Password" }) }
+
+		//generate an access token
+		let accessToken = jwt.sign({ username: result.username, email: result.email }, accessTokenSecret);
+		//create a token cookie that expires atfer 3 days, sameSite: "None", secure: true
+		res.cookie("accessToken", accessToken, { httpOnly: true, maxAge: 3 * 24 * 60 * 60 * 1000, sameSite: "None", secure: true })
+		res.send({ status: "success", data: { username: result.username, email: result.email } })
 	})
 })
 
