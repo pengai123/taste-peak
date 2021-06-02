@@ -5,8 +5,7 @@ module.exports = {
   entry: `${SRC_DIR}/index.jsx`,
   output: {
     path: DIST_DIR,
-    filename: 'bundle.js',
-    chunkFilename: '[name].bundle.js'
+    filename: 'bundle.js'
   },
   module: {
     rules: [
