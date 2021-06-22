@@ -47,7 +47,10 @@ export default function Signup({ history }) {
   useEffect(() => {
     const formInputs = document.querySelectorAll(".form-input");
     const signupLink = document.querySelector(".signup-li")
-    signupLink.classList.add("active");
+
+    if (signupLink) {
+      signupLink.classList.add("active");
+    }
 
     formInputs.forEach(input => {
       input.addEventListener("focus", () => {

@@ -26,6 +26,7 @@ export default function Login({ history }) {
           } else {
             setCurrentUser(data.data.username)
             history.push("/")
+            // window.open("/", "_self")
           }
         })
     } else {
@@ -36,7 +37,10 @@ export default function Login({ history }) {
   useEffect(() => {
     const formInputs = document.querySelectorAll(".form-input");
     const loginLink = document.querySelector(".login-li")
-    loginLink.classList.add("active");
+
+    if (loginLink) {
+      loginLink.classList.add("active");
+    }
 
     formInputs.forEach(input => {
       input.addEventListener("focus", () => {
@@ -51,7 +55,6 @@ export default function Login({ history }) {
     })
 
   }, [])
-
 
   return (
     <div className="page-container login-page">
