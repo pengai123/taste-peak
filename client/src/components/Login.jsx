@@ -62,13 +62,13 @@ export default function Login({ history }) {
         <h1>Login</h1>
         <div className="input-wrapper">
           <input name="username" type="text" className="form-input" autoComplete="off"
-            value={username} onChange={e => setUsername(e.target.value)} />
+            value={username} onChange={e => setUsername(e.target.value.trim())} />
           <span className="input-label">Username</span>
           <span className="input-underline"></span>
         </div>
         <div className="input-wrapper">
           <input name="password" type="password" className="form-input"
-            value={password} onChange={e => setPassword(e.target.value)} />
+            value={password} onChange={e => setPassword(e.target.value.trim())} />
           <span className="input-label">Password</span>
           <span className="input-underline"></span>
         </div>

@@ -73,25 +73,25 @@ export default function Signup({ history }) {
         <h1>Sign Up</h1>
         <div className="input-wrapper">
           <input name="username" type="text" className="form-input" autoComplete="off"
-            value={username} onChange={e => setUsername(e.target.value)} />
+            value={username} onChange={e => setUsername(e.target.value.trim())} />
           <span className="input-label">Username</span>
           <span className="input-underline"></span>
         </div>
         <div className="input-wrapper">
           <input name="email" type="text" className="form-input" autoComplete="off"
-            value={email} onChange={e => setEmail(e.target.value)} />
+            value={email} onChange={e => setEmail(e.target.value.trim())} />
           <span className="input-label">Email</span>
           <span className="input-underline"></span>
         </div>
         <div className="input-wrapper">
           <input name="password" type="password" className="form-input"
-            value={password} onChange={e => setPassword(e.target.value)} />
+            value={password} onChange={e => setPassword(e.target.value.trim())} />
           <span className="input-label">Password</span>
           <span className="input-underline"></span>
         </div>
         <div className="input-wrapper">
           <input name="password" type="password" className="form-input"
-            value={passwordConfirm} onChange={e => setPasswordConfirm(e.target.value)} />
+            value={passwordConfirm} onChange={e => setPasswordConfirm(e.target.value.trim())} />
           <span className="input-label">Confirm Password</span>
           <span className="input-underline"></span>
         </div>
