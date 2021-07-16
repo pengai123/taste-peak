@@ -64,10 +64,10 @@ export default function About() {
           <p>I am a 5+ years experienced software engineer in Aerospace industry, with strong passion for new technologies. Also I am a full stack engineer who enjoys new challenges and loves web development.</p>
           <h2>Contact Me</h2>
           <div className="social">
-            {/* <div className="contact linkedin">
+            <div className="contact linkedin">
 							<i className="fab fa-linkedin-in icon"></i>
 							<a href="https://www.linkedin.com/in/pengai" target="_blank">linkedin.com/in/pengai</a>
-						</div> */}
+						</div>
             <div className="contact email">
               <i className="far fa-envelope icon"></i>
               <a href="mailto:aaaipeng@gmail.com">aaaipeng@gmail.com</a>
