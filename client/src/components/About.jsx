@@ -61,13 +61,13 @@ export default function About() {
           <h2>Peng Ai</h2>
           <h3 className="tittle">Software Engineer - Full Stack</h3>
           <h3 className="location"><i className="fas fa-map-marker-alt icon"></i>Phoenix, Arizona, United States</h3>
-          <p>I am a 5+ years experienced software engineer in Aerospace industry, with strong passion for new technologies. Also I am a full stack engineer who enjoys new challenges and loves web development.</p>
+          <p>I am a full stack software engineer with strong passion for new technologies and new challenges.</p>
           <h2>Contact Me</h2>
           <div className="social">
             <div className="contact linkedin">
-							<i className="fab fa-linkedin-in icon"></i>
-							<a href="https://www.linkedin.com/in/pengai" target="_blank">linkedin.com/in/pengai</a>
-						</div>
+              <i className="fab fa-linkedin-in icon"></i>
+              <a href="https://www.linkedin.com/in/pengai" target="_blank">linkedin.com/in/pengai</a>
+            </div>
             <div className="contact email">
               <i className="far fa-envelope icon"></i>
               <a href="mailto:aaaipeng@gmail.com">aaaipeng@gmail.com</a>
