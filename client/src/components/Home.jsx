@@ -1,11 +1,11 @@
 import React, { useState, useContext, useEffect } from 'react'
-import { LocationContext } from './App.jsx';
+import { Context } from './App.jsx';
 
 export default function Home() {
 
 	const [location, setLocation] = useState("");
 	const [keyword, setKeyword] = useState("");
-	const { defaultLocation } = useContext(LocationContext)
+	const { defaultLocation } = useContext(Context)
 
 	const getHref = () => {
 		if (location === "" && keyword === "") {

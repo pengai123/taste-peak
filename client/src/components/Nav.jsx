@@ -1,13 +1,11 @@
 import React, { useRef, useEffect, useContext } from 'react'
 import { Link } from "react-router-dom"
-import { AuthContext } from "./App.jsx"
-import { LocationContext } from "./App.jsx"
+import { Context } from "./App.jsx"
 import axios from "axios"
 
 export default function Nav() {
 
-  const { currentUser, setCurrentUser } = useContext(AuthContext)
-  const { defaultLocation } = useContext(LocationContext)
+  const { currentUser, setCurrentUser, defaultLocation } = useContext(Context)
   const navLinksRef = useRef(null)
   const menuIconRef = useRef(null)
   const accMenuRef = useRef(null)
@@ -56,10 +54,9 @@ export default function Nav() {
       logoutApiUrl = `https://api.tastepeak.com/api/logout`
     }
     axios.get(logoutApiUrl, { withCredentials: true })
-      // axios.get("http://localhost:3000/api/logout", {withCredentials: true})
       .then(({ data }) => {
         if (data.status === "success") {
-          setCurrentUser(undefined);
+          setCurrentUser(null);
         }
       })
       .catch(err => console.log(err))
@@ -111,7 +108,7 @@ export default function Nav() {
         {currentUser &&
           <li className="user-li">
             <div className="user-img" onClick={toggleAccountMenu}>
-              <img src="https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg" alt="" />
+              <img src="https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg" alt="profile picture" />
             </div>
             <div className="account-menu" ref={accMenuRef}>
               <h2>{currentUser}</h2>

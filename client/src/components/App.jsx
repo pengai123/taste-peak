@@ -11,8 +11,7 @@ import PageNotFound from "./PageNotFound.jsx";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import axios from "axios";
 
-export const AuthContext = React.createContext();
-export const LocationContext = React.createContext();
+export const Context = React.createContext()
 
 export default function App() {
 
@@ -34,7 +33,11 @@ export default function App() {
         setCurrentUser(data.username)
         setFetchingUserCompleted(true)
       })
-      .catch(err => console.log('Error getting current user:', err))
+      .catch(err => {
+        console.log('Error getting current user:', err)
+        setCurrentUser(null)
+        setFetchingUserCompleted(true)
+      })
   }, [])
 
   if (!fetchingUserCompleted) {
@@ -42,22 +45,20 @@ export default function App() {
   }
   return (
     <div>
-      <AuthContext.Provider value={{ currentUser, setCurrentUser }}>
-        <LocationContext.Provider value={{ defaultLocation, setDefaultLocation }}>
-          <Router>
-            <Nav />
-            <Switch>
-              <Route path="/" exact component={Home} />
-              <Route path="/login" component={Login} />
-              <Route path="/signup" component={Signup} />
-              <Route path="/about" component={About} />
-              <Route path={["/Restaurants/:location/:keyword", "/Restaurants/:location", "/Restaurants"]} component={Restaurants} />
-              <Route path="*" component={PageNotFound} />
-            </Switch>
-            <Footer />
-          </Router>
-        </LocationContext.Provider>
-      </AuthContext.Provider>
+      <Context.Provider value={{ currentUser, setCurrentUser, defaultLocation, setDefaultLocation }}>
+        <Router>
+          <Nav />
+          <Switch>
+            <Route path="/" exact component={Home} />
+            <Route path="/login" component={Login} />
+            <Route path="/signup" component={Signup} />
+            <Route path="/about" component={About} />
+            <Route path={["/Restaurants/:location/:keyword", "/Restaurants/:location", "/Restaurants"]} component={Restaurants} />
+            <Route path="*" component={PageNotFound} />
+          </Switch>
+          <Footer />
+        </Router>
+      </Context.Provider>
     </div>
   )
 }

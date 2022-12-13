@@ -6,6 +6,7 @@ const cookieParser = require("cookie-parser")
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 const axios = require("axios")
+const HTTPStatus = require('./HTTPStatus.js')
 // const dbHandlers = require("./database/handlers")
 const { Account } = require("./database/index")
 if (process.env.NODE_ENV === 'development') {
@@ -37,12 +38,12 @@ app.get("/", (req, res) => {
 })
 
 //create new account
-app.post("/api/accounts", async (req, res) => {
+app.post("/api/signup", async (req, res) => {
 
   try {
     // check if the username already exists
     const user = await Account.findOne({ username: req.body.username })
-    if (user) return res.send({ status: "failure", message: "Username already exists" })
+    if (user) return res.status(HTTPStatus.BAD_REQUEST).send({ message: "Username already exists" })
 
     //hash password
     const password = await bcrypt.hash(req.body.password, saltRounds)
@@ -55,20 +56,11 @@ app.post("/api/accounts", async (req, res) => {
     res.cookie("accessToken", accessToken, { httpOnly: true, maxAge: 3 * 24 * 60 * 60 * 1000, sameSite: "None", secure: true })
 
     // send back new user data except password
-    res.send({ status: "success", data: { username: newUser.username, email: newUser.email } })
+    res.send({ data: { username: newUser.username, email: newUser.email } })
   } catch (error) {
-    res.send({ status: "failure", error: error })
+    res.status(HTTPStatus.BAD_REQUEST).send({ message: 'Unable to signup at the moment, try again later.' })
   }
-
 })
-
-//find an account
-// app.get("/api/accounts/:username", (req, res) => {
-//   dbHandlers.findAccount({ username: req.params.username }, (err, result) => {
-//     if (err) { return res.send(err) }
-//     res.send(result)
-//   })
-// })
 
 //handle log in
 app.post("/api/login", async (req, res) => {
@@ -76,22 +68,22 @@ app.post("/api/login", async (req, res) => {
     const user = await Account.findOne({ username: req.body.username })
 
     //username doesn't exist
-    if (!user) return res.send({ status: "failure", message: "Username does not exist" })
-
+    if (!user) return res.status(HTTPStatus.NOT_FOUND).send({ message: "Username does not exist" })
     const match = await bcrypt.compare(req.body.password, user.password)
+
     //Invalid Password
-    if (!match) return res.send({ status: "failure", message: "Invalid Password" })
+    if (!match) return res.status(HTTPStatus.UNAUTHORIZED).send({ message: "Invalid Password" })
 
     //Valid username and password combination
     //generate an access token
     const accessToken = jwt.sign({ username: user.username, email: user.email }, accessTokenSecret);
 
-    //create a token cookie that expires atfer 3 days, sameSite: "None", secure: true
+    //create a token cookie that expires after 3 days, sameSite: "None", secure: true
     res.cookie("accessToken", accessToken, { httpOnly: true, maxAge: 3 * 24 * 60 * 60 * 1000, sameSite: "None", secure: true })
-    res.send({ status: "success", data: { username: user.username, email: user.email } })
+    res.send({ data: { username: user.username, email: user.email } })
 
   } catch (error) {
-    res.send({ status: "failure", error: error })
+    res.status(HTTPStatus.BAD_REQUEST).send({ message: "Unable to login at the moment, try again later." })
   }
 })
 
@@ -99,11 +91,11 @@ app.post("/api/login", async (req, res) => {
 app.get("/api/current-user", (req, res) => {
   console.log('accessToken:', req.cookies.accessToken)
   //access token does not exist
-  if (req.cookies.accessToken === undefined) { return res.send({}) }
+  if (req.cookies.accessToken === undefined) { return res.send(null) }
 
   //verify access token
   jwt.verify(req.cookies.accessToken, accessTokenSecret, function (err, decoded) {
-    if (err) { return res.sendStatus(403) }
+    if (err) { return res.sendStatus(HTTPStatus.FORBIDDEN) }
     res.send({ username: decoded.username, email: decoded.email })
   })
 })
