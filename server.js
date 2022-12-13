@@ -108,25 +108,26 @@ app.get("/api/logout", (req, res) => {
 
 
 //get restaurants data from public API
-app.get("/api/restaurants/:loc", (req, res) => {
+app.get("/api/restaurants/:loc", async (req, res) => {
 
   let loc = req.params.loc;
   let start = req.query.start;
   let keyword = req.query.kw;
 
-  axios.get(`https://developers.zomato.com/api/v2.1/locations?query=${loc}`, zomatoConfig)
-    .then(result => {
-      let location = result.data.location_suggestions[0];
-      // console.log('location:', location)
-      axios.get(`https://developers.zomato.com/api/v2.1/search?entity_id=${location.entity_id}&entity_type=${location.entity_type}&start=${start}&q=${keyword}`, zomatoConfig)
-        .then(result => {
-          // console.log('result.data:', result.data)
-          let restaurants = result.data.restaurants;
-          let total = result.data.results_found;
-          let start = result.data.results_start;
-          res.send({ location, total, start, restaurants });
-        })
-    })
+  try {
+    // get location data
+    const locations = await axios.get(`https://developers.zomato.com/api/v2.1/locations?query=${loc}`, zomatoConfig)
+    const location = locations.data.location_suggestions[0]
+    
+    // get restaurant data with location 
+    const { data } = await axios.get(`https://developers.zomato.com/api/v2.1/search?entity_id=${location.entity_id}&entity_type=${location.entity_type}&start=${start}&q=${keyword}`, zomatoConfig)
+    const restaurants = data.restaurants
+    const total = data.results_found
+    start = data.results_start
+    res.send({ location, total, start, restaurants })
+  } catch (error) {
+    res.sendStatus(HTTPStatus.BAD_REQUEST)
+  }
 })
 
 app.listen(PORT, () => console.log(`server is listening on port ${PORT}...`))
