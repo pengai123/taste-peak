@@ -1,37 +1,34 @@
 import React, { useEffect, useState, useContext } from 'react'
 import axios from "axios"
-import { AuthContext } from "./App.jsx"
+import { Context } from "./App.jsx"
 
 export default function Login({ history }) {
-  const { currentUser, setCurrentUser } = useContext(AuthContext)
+  const { setCurrentUser } = useContext(Context)
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [formMsg, setFormMsg] = useState("")
 
 
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    if (username && password) {
-      let loginApiUrl;
-      if (process.env.NODE_ENV === "development") {
-        loginApiUrl = `http://localhost:3000/api/login`
-      } else {
-        loginApiUrl = `https://api.tastepeak.com/api/login`
-      }
-      axios.post(loginApiUrl, { username, password }, { withCredentials: true })
-        // axios.post("http://localhost:3000/api/login", { username, password }, {withCredentials: true})
-        .then(({ data }) => {
-          if (data.status === "failure") {
-            setFormMsg(data.message)
-          } else {
-            setCurrentUser(data.data.username)
-            history.push("/")
-            // window.open("/", "_self")
-          }
-        })
-    } else {
-      setFormMsg("Please complete the form before submitting")
+    if (!username || !password) {
+      return setFormMsg("Please complete the form before submitting")
     }
+
+    let loginApiUrl;
+    if (process.env.NODE_ENV === "development") {
+      loginApiUrl = `http://localhost:3000/api/login`
+    } else {
+      loginApiUrl = `https://api.tastepeak.com/api/login`
+    }
+    axios.post(loginApiUrl, { username, password }, { withCredentials: true })
+      .then(({ data }) => {
+        setCurrentUser(data.data.username)
+        history.push("/")
+      })
+      .catch((error) => {
+        setFormMsg(error.response.data.message)
+      })
   }
 
   useEffect(() => {

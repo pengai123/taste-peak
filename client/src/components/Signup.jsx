@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react'
 import axios from "axios"
-import { AuthContext } from "./App.jsx"
+import { Context } from "./App.jsx"
 
 export default function Signup({ history }) {
 
@@ -9,39 +9,35 @@ export default function Signup({ history }) {
   const [password, setPassword] = useState("")
   const [passwordConfirm, setPasswordConfirm] = useState("")
   const [formMsg, setFormMsg] = useState("")
-  const { setCurrentUser } = useContext(AuthContext)
+  const { setCurrentUser } = useContext(Context)
 
 
   const handleSubmit = e => {
     e.preventDefault();
-
-    if (username && email && password && passwordConfirm) {
-      if (password === passwordConfirm) {
-        let signupApiUrl;
-        if (process.env.NODE_ENV === "development") {
-          signupApiUrl = `http://localhost:3000/api/accounts`
-        } else {
-          signupApiUrl = `https://api.tastepeak.com/api/accounts`
-        }
-        let userObj = { username, email, password };
-        // axios.post("https://api.tastepeak.com/api/accounts", userObj, { withCredentials: true })
-        axios.post(signupApiUrl, userObj, { withCredentials: true })
-          .then(({ data }) => {
-            console.log("sign up res", data)
-            if (data.status === "success") {
-              setCurrentUser(data.data.username)
-              history.push("/")
-            } else {
-              setFormMsg("Username is already taken")
-            }
-          })
-          .catch(err => console.log(err))
-      } else {
-        setFormMsg("Passwords dont match")
-      }
-    } else {
-      setFormMsg("Please complete the form before submitting")
+    if (!username || !email || !password || !passwordConfirm) {
+      return setFormMsg("Please complete the form before submitting")
     }
+    if (password !== passwordConfirm) {
+      return setFormMsg("Passwords dont match")
+    }
+
+    let signupApiUrl;
+    if (process.env.NODE_ENV === "development") {
+      signupApiUrl = `http://localhost:3000/api/signup`
+    } else {
+      signupApiUrl = `https://api.tastepeak.com/api/signup`
+    }
+    let userObj = { username, email, password };
+    axios.post(signupApiUrl, userObj, { withCredentials: true })
+      .then(({ data }) => {
+        console.log("sign up res", data)
+        setCurrentUser(data.data.username)
+        history.push("/")
+      })
+      .catch(error => {
+        console.log(error)
+        setFormMsg(error.response.data.message)
+      })
   }
 
   useEffect(() => {
@@ -63,7 +59,6 @@ export default function Signup({ history }) {
         }
       })
     })
-
   }, [])
 
 

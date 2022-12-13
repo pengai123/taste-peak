@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useState, useEffect, useContext } from 'react'
 import RestaurantCard from "./RestaurantCard.jsx"
 import Loader from "./Loader.jsx"
-import { LocationContext } from './App.jsx';
+import { Context } from './App.jsx';
 
 export default function Restaurants({ match }) {
   const [location, setLocation] = useState("");
@@ -11,7 +11,7 @@ export default function Restaurants({ match }) {
   const [isLoading, setIsLoading] = useState(false);
   const [total, setTotal] = useState(0)
   const [startNumber, setStartNumber] = useState(0)
-  const { defaultLocation } = useContext(LocationContext)
+  const { defaultLocation } = useContext(Context)
 
   const getHref = () => {
     if (location === "" && keyword === "") {
