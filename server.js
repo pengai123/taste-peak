@@ -14,7 +14,7 @@ if (process.env.NODE_ENV === 'development') {
   require('dotenv').config();
 }
 const corsOptions = {
-  // credentials: true,
+  credentials: true,
   origin: "https://www.tastepeak.com"
 }
 const PORT = process.env.PORT || 3000

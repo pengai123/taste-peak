@@ -23,7 +23,7 @@ export default function Signup({ history }) {
     try {
       const userObj = { username, email, password }
       const signupUrl = process.env.NODE_ENV === 'development' ? '/api/signup' : 'https://api.tastepeak.com/api/signup'
-      const { data } = await axios.post(signupUrl, userObj)
+      const { data } = await axios.post(signupUrl, userObj, { withCredentials: true })
       console.log("sign up response", data)
       setCurrentUser(data.data.username)
       history.push("/")

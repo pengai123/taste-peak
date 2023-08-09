@@ -16,7 +16,7 @@ export default function Login({ history }) {
     }
     try {
       const loginUrl = process.env.NODE_ENV === 'development' ? '/api/login' : 'https://api.tastepeak.com/api/login'
-      const { data } = await axios.post(loginUrl, { username, password })
+      const { data } = await axios.post(loginUrl, { username, password }, { withCredentials: true })
       setCurrentUser(data.data.username)
       history.push("/")
     } catch (error) {
