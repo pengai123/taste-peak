@@ -5,13 +5,16 @@ import Loader from "./Loader.jsx"
 import { Context } from './App.jsx';
 
 export default function Restaurants({ match }) {
+  const pageSize = 20
   const [location, setLocation] = useState("");
   const [keyword, setKeyword] = useState("");
-  const [restaurants, setRestaurants] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [total, setTotal] = useState(0)
-  const [startNumber, setStartNumber] = useState(0)
-  const { defaultLocation } = useContext(Context)
+  const { defaultLocation, restaurants, setRestaurants } = useContext(Context)
+  const [currentPage, setCurrentPage] = useState(1)
+
+  const totalPage = Math.ceil(restaurants.length / pageSize)
+  const display = restaurants.slice((currentPage - 1) * pageSize, currentPage * pageSize)
+
 
   const getHref = () => {
     if (location === "" && keyword === "") {
@@ -38,28 +41,31 @@ export default function Restaurants({ match }) {
       restaurantApiUrl = `https://api.tastepeak.com/api/restaurants/${loc}?kw=${kw}&start=${start}`
     }
     axios.get(restaurantApiUrl)
-      .then(result => {
-        console.log('result.data', result.data)
-        setRestaurants(result.data.restaurants);
-        setLocation(result.data.location.city_name);
-        setTotal(result.data.total);
-        setStartNumber(result.data.start);
-        setKeyword(kw);
-        setIsLoading(false);
+      .then((result) => {
+        console.log('result.data:', result.data)
+        setRestaurants(result.data)
+        if (result.data.length > 0) {
+          setLocation(result.data[0]?.address?.city)
+        }
+        setKeyword(kw)
+        setIsLoading(false)
+      })
+      .catch((error) => {
+        setIsLoading(false)
       })
   }
 
   const nextPage = e => {
     e.preventDefault();
-    if (startNumber + 20 < total) {
-      search(location, keyword, startNumber + 20)
+    if (totalPage > currentPage) {
+      setCurrentPage((prev) => prev + 1)
     }
   }
 
   const prevPage = e => {
     e.preventDefault();
-    if (startNumber - 20 >= 0) {
-      search(location, keyword, startNumber - 20)
+    if (currentPage - 1 > 0) {
+      setCurrentPage((prev) => prev - 1)
     }
   }
 
@@ -90,14 +96,22 @@ export default function Restaurants({ match }) {
           <a href={getHref()}>Search</a>
         </div>
         <div className="search-result">
-          <p className="result-text">{total} results found for <span>{match.params.keyword}</span> restaurants in <span>{match.params.location ? match.params.location : location}</span>:</p>
+          <p className="result-text">{restaurants.length} results found for <span>{match.params.keyword}</span> restaurants in <span>{match.params.location ? match.params.location : location}</span>:</p>
           <div className="restaurants-container">
-            {restaurants.map((restaurant, idx) => <RestaurantCard restaurant={restaurant} key={idx} />)}
+            {display.map((restaurant, idx) => <RestaurantCard restaurant={restaurant} key={idx} />)}
           </div>
           <div className="page-btns">
-            <button className="prev-btn page-btn" onClick={prevPage}>{`< Prev`}</button>
-            <span className="page-index">Page {(startNumber / 20) + 1}</span>
-            <button className="next-btn page-btn" onClick={nextPage}>{`Next >`}</button>
+            <button className="prev-btn page-btn" onClick={prevPage}>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+              </svg>
+            </button>
+            <span className="page-index">Page {currentPage}</span>
+            <button className="next-btn page-btn" onClick={nextPage}>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+              </svg>
+            </button>
           </div>
         </div>
       </div>

@@ -18,6 +18,7 @@ export default function App() {
   const [currentUser, setCurrentUser] = useState(undefined)
   const [fetchingUserCompleted, setFetchingUserCompleted] = useState(false)
   const [defaultLocation, setDefaultLocation] = useState("Phoenix")
+  const [restaurants, setRestaurants] = useState([])
 
   useEffect(() => {
     let currentUserApiUrl;
@@ -45,7 +46,7 @@ export default function App() {
   }
   return (
     <div>
-      <Context.Provider value={{ currentUser, setCurrentUser, defaultLocation, setDefaultLocation }}>
+      <Context.Provider value={{ currentUser, setCurrentUser, defaultLocation, setDefaultLocation, restaurants, setRestaurants }}>
         <Router>
           <Nav />
           <Switch>

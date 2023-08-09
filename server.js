@@ -25,12 +25,6 @@ app.use(cors(corsOptions))
 
 console.log('process.env.NODE_ENV:', process.env.NODE_ENV)
 
-const zomatoConfig = {
-  headers: {
-    "user-key": process.env.zomato_user_key
-  }
-};
-
 const accessTokenSecret = process.env.access_token_secret;
 
 app.get("/", (req, res) => {
@@ -109,24 +103,20 @@ app.get("/api/logout", (req, res) => {
 
 //get restaurants data from public API
 app.get("/api/restaurants/:loc", async (req, res) => {
-
-  let loc = req.params.loc;
-  let start = req.query.start;
-  let keyword = req.query.kw;
-
+  const loc = req.params.loc
+  const keyword = req.query.kw
   try {
     // get location data
-    const locations = await axios.get(`https://developers.zomato.com/api/v2.1/locations?query=${loc}`, zomatoConfig)
-    const location = locations.data.location_suggestions[0]
-    
+    const result = await axios.get(`https://geocode.maps.co/search?q=${loc}`)
+    const location = result.data[0]
+
+    if (!location) return res.status(HTTPStatus.BAD_REQUEST).json({ message: "Can't find this location." })
     // get restaurant data with location 
-    const { data } = await axios.get(`https://developers.zomato.com/api/v2.1/search?entity_id=${location.entity_id}&entity_type=${location.entity_type}&start=${start}&q=${keyword}`, zomatoConfig)
-    const restaurants = data.restaurants
-    const total = data.results_found
-    start = data.results_start
-    res.send({ location, total, start, restaurants })
+    const { data: { restaurants } } = keyword ? await axios.get(`https://api.spoonacular.com/food/restaurants/search?apiKey=${process.env.SPOONACULAR_API_KEY}&lat=${location.lat}&lng=${location.lon}&cuisine=${keyword}`) : await axios.get(`https://api.spoonacular.com/food/restaurants/search?apiKey=${process.env.SPOONACULAR_API_KEY}&lat=${location.lat}&lng=${location.lon}`)
+    const filtered = restaurants.filter((r) => r.address.city.toLowerCase() === loc.toLowerCase())
+    res.json(filtered)
   } catch (error) {
-    res.sendStatus(HTTPStatus.BAD_REQUEST)
+    res.status(HTTPStatus.BAD_REQUEST).json({ message: 'Having issue finding restaurants.' })
   }
 })
 
