@@ -9,14 +9,20 @@ const HTTPStatus = require('./HTTPStatus.js')
 const path = require('path')
 const APPDIR = path.resolve()
 const { Account } = require("./database/index")
+const cors = require("cors")
 if (process.env.NODE_ENV === 'development') {
   require('dotenv').config();
+}
+const corsOptions = {
+  // credentials: true,
+  origin: "https://www.tastepeak.com"
 }
 const PORT = process.env.PORT || 3000
 const saltRounds = 10
 app.use(cookieParser())
 app.use(bp.json())
 app.use(bp.urlencoded({ extended: true }))
+app.use(cors(corsOptions))
 
 console.log('process.env.NODE_ENV:', process.env.NODE_ENV)
 
