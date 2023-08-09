@@ -12,7 +12,7 @@ export default function Signup({ history }) {
   const { setCurrentUser } = useContext(Context)
 
 
-  const handleSubmit = e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!username || !email || !password || !passwordConfirm) {
       return setFormMsg("Please complete the form before submitting")
@@ -20,24 +20,17 @@ export default function Signup({ history }) {
     if (password !== passwordConfirm) {
       return setFormMsg("Passwords dont match")
     }
-
-    let signupApiUrl;
-    if (process.env.NODE_ENV === "development") {
-      signupApiUrl = `http://localhost:3000/api/signup`
-    } else {
-      signupApiUrl = `https://api.tastepeak.com/api/signup`
+    try {
+      const userObj = { username, email, password }
+      const signupUrl = process.env.NODE_ENV === 'development' ? '/api/signup' : 'https://api.tastepeak.com/api/signup'
+      const { data } = await axios.post(signupUrl, userObj)
+      console.log("sign up response", data)
+      setCurrentUser(data.data.username)
+      history.push("/")
+    } catch (error) {
+      console.log(error)
+      setFormMsg(error.response.data.message)
     }
-    let userObj = { username, email, password };
-    axios.post(signupApiUrl, userObj, { withCredentials: true })
-      .then(({ data }) => {
-        console.log("sign up res", data)
-        setCurrentUser(data.data.username)
-        history.push("/")
-      })
-      .catch(error => {
-        console.log(error)
-        setFormMsg(error.response.data.message)
-      })
   }
 
   useEffect(() => {

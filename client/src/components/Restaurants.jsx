@@ -31,28 +31,20 @@ export default function Restaurants({ match }) {
     }
   }
 
-  const search = (loc = defaultLocation, kw = "", start = 0) => {
-
+  const search = async (loc = defaultLocation, kw = "") => {
     setIsLoading(true);
-    let restaurantApiUrl;
-    if (process.env.NODE_ENV === "development") {
-      restaurantApiUrl = `http://localhost:3000/api/restaurants/${loc}?kw=${kw}&start=${start}`
-    } else {
-      restaurantApiUrl = `https://api.tastepeak.com/api/restaurants/${loc}?kw=${kw}&start=${start}`
+    try {
+      const restaurantUrl = process.env.NODE_ENV === 'development' ? `/api/restaurants/${loc}?kw=${kw}` : `https://api.tastepeak.com/api/restaurants/${loc}?kw=${kw}`
+      const { data } = await axios.get(restaurantUrl)
+      if (data.length > 0) {
+        setRestaurants(data)
+        setLocation(data[0]?.address?.city)
+      }
+      setKeyword(kw)
+      setIsLoading(false)
+    } catch (error) {
+      setIsLoading(false)
     }
-    axios.get(restaurantApiUrl)
-      .then((result) => {
-        console.log('result.data:', result.data)
-        setRestaurants(result.data)
-        if (result.data.length > 0) {
-          setLocation(result.data[0]?.address?.city)
-        }
-        setKeyword(kw)
-        setIsLoading(false)
-      })
-      .catch((error) => {
-        setIsLoading(false)
-      })
   }
 
   const nextPage = e => {
@@ -89,7 +81,7 @@ export default function Restaurants({ match }) {
             <i className="fas fa-map-marker-alt location-input-icon"></i>
           </div>
           <div className="keyword-input-wrapper">
-            <input type="text" placeholder="Restaurant, cuisine or a dish" className="keyword-input"
+            <input type="text" placeholder="Cuisine" className="keyword-input"
               value={keyword} onChange={e => setKeyword(e.target.value)} />
             <i className="fas fa-search keyword-input-icon"></i>
           </div>

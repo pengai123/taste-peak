@@ -20,25 +20,20 @@ export default function App() {
   const [defaultLocation, setDefaultLocation] = useState("Phoenix")
   const [restaurants, setRestaurants] = useState([])
 
-  useEffect(() => {
-    let currentUserApiUrl;
-    if (process.env.NODE_ENV === "development") {
-      currentUserApiUrl = `http://localhost:3000/api/current-user`
-    } else {
-      currentUserApiUrl = `https://api.tastepeak.com/api/current-user`
+  const fetchUser = async () => {
+    try {
+      const { data } = await axios.get('/api/current-user')
+      console.log('user info:', data)
+      setCurrentUser(data.username)
+      setFetchingUserCompleted(true)
+    } catch (error) {
+      console.log('Error getting current user:', err)
+      setCurrentUser(null)
+      setFetchingUserCompleted(true)
     }
-    // axios.get("https://api.tastepeak.com/api/current-user", {withCredentials: true})
-    axios.get(currentUserApiUrl, { withCredentials: true })
-      .then(({ data }) => {
-        console.log('user info:', data)
-        setCurrentUser(data.username)
-        setFetchingUserCompleted(true)
-      })
-      .catch(err => {
-        console.log('Error getting current user:', err)
-        setCurrentUser(null)
-        setFetchingUserCompleted(true)
-      })
+  }
+  useEffect(() => {
+    fetchUser()
   }, [])
 
   if (!fetchingUserCompleted) {

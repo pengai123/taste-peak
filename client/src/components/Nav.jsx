@@ -46,20 +46,16 @@ export default function Nav() {
     }
   }
 
-  const handleLogout = () => {
-    let logoutApiUrl;
-    if (process.env.NODE_ENV === "development") {
-      logoutApiUrl = `http://localhost:3000/api/logout`
-    } else {
-      logoutApiUrl = `https://api.tastepeak.com/api/logout`
+  const handleLogout = async () => {
+    try {
+      const logoutUrl = process.env.NODE_ENV === 'development' ? '/api/logout' : 'https://api.tastepeak.com/api/logout'
+      const { data } = await axios.get(logoutUrl)
+      if (data.status === "success") {
+        setCurrentUser(null);
+      }
+    } catch (error) {
+      console.log(error)
     }
-    axios.get(logoutApiUrl, { withCredentials: true })
-      .then(({ data }) => {
-        if (data.status === "success") {
-          setCurrentUser(null);
-        }
-      })
-      .catch(err => console.log(err))
   }
 
   const toggleAccountMenu = () => {
@@ -68,17 +64,6 @@ export default function Nav() {
   }
   useEffect(() => {
     const navbarLinks = document.querySelectorAll(".navbar ul.navbar-links > li");
-
-    // navbarLinks.forEach( link => {
-    // 	link.addEventListener("click", e => {
-    // 		// e.preventDefault();
-    // 		navbarLinks.forEach(link => {
-    // 			link.classList.remove("active");
-    // 		})
-    // 		link.classList.add("active");
-    // 		console.log("remove active then add active")
-    // 	})
-    // })
     document.addEventListener('mousedown', handleClickOutsideNavbarLinks);
     document.addEventListener('mousedown', handleClickOutsideAccMenu);
     window.addEventListener("scroll", handleWindowScroll);

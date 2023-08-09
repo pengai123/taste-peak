@@ -9,26 +9,19 @@ export default function Login({ history }) {
   const [formMsg, setFormMsg] = useState("")
 
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!username || !password) {
       return setFormMsg("Please complete the form before submitting")
     }
-
-    let loginApiUrl;
-    if (process.env.NODE_ENV === "development") {
-      loginApiUrl = `http://localhost:3000/api/login`
-    } else {
-      loginApiUrl = `https://api.tastepeak.com/api/login`
+    try {
+      const loginUrl = process.env.NODE_ENV === 'development' ? '/api/login' : 'https://api.tastepeak.com/api/login'
+      const { data } = await axios.post(loginUrl, { username, password })
+      setCurrentUser(data.data.username)
+      history.push("/")
+    } catch (error) {
+      setFormMsg(error.response.data.message)
     }
-    axios.post(loginApiUrl, { username, password }, { withCredentials: true })
-      .then(({ data }) => {
-        setCurrentUser(data.data.username)
-        history.push("/")
-      })
-      .catch((error) => {
-        setFormMsg(error.response.data.message)
-      })
   }
 
   useEffect(() => {

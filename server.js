@@ -1,34 +1,29 @@
 const express = require("express")
 const app = express()
-const cors = require("cors")
 const bp = require("body-parser")
 const cookieParser = require("cookie-parser")
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 const axios = require("axios")
 const HTTPStatus = require('./HTTPStatus.js')
-// const dbHandlers = require("./database/handlers")
+const path = require('path')
+const APPDIR = path.resolve()
 const { Account } = require("./database/index")
 if (process.env.NODE_ENV === 'development') {
   require('dotenv').config();
 }
 const PORT = process.env.PORT || 3000
 const saltRounds = 10
-const corsOptions = {
-  credentials: true,
-  origin: process.env.NODE_ENV === "development" ? "http://localhost:3010" : "https://www.tastepeak.com"
-}
 app.use(cookieParser())
 app.use(bp.json())
 app.use(bp.urlencoded({ extended: true }))
-app.use(cors(corsOptions))
 
 console.log('process.env.NODE_ENV:', process.env.NODE_ENV)
 
 const accessTokenSecret = process.env.access_token_secret;
 
-app.get("/", (req, res) => {
-  res.send(`<h2>Welcome to Taste Peak Server!</h2>`)
+app.get("/hello", (req, res) => {
+  res.json({ hello: 'world' })
 })
 
 //create new account
@@ -119,5 +114,10 @@ app.get("/api/restaurants/:loc", async (req, res) => {
     res.status(HTTPStatus.BAD_REQUEST).json({ message: 'Having issue finding restaurants.' })
   }
 })
+
+if (process.env.NODE_ENV === 'development') {
+  app.use(express.static(path.join(APPDIR, 'client/dist')))
+  app.get('*', (req, res) => res.sendFile(path.join(APPDIR, 'client/dist/index.html')))
+}
 
 app.listen(PORT, () => console.log(`server is listening on port ${PORT}...`))
