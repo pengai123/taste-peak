@@ -21,5 +21,9 @@ module.exports = {
   },
   resolve: {
     extensions: [".js", ".jsx"]
+  },
+  performance: {
+    maxAssetSize: 50000,
+    maxEntrypointSize: 50000,
   }
 };
