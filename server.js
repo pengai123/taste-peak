@@ -117,6 +117,7 @@ app.get("/api/restaurants/:loc", async (req, res) => {
     const filtered = restaurants.filter((r) => r.address.city.toLowerCase() === loc.toLowerCase())
     res.json(filtered)
   } catch (error) {
+    console.log('error:', error)
     res.status(HTTPStatus.BAD_REQUEST).json({ message: 'Having issue finding restaurants.' })
   }
 })

@@ -589,19 +589,20 @@
 }
 
 .about-container {
-  width: 85%;
+  width: 80%;
   margin: auto;
   display: flex;
+  color: #1e293b;
 }
 
 .about-me {
-  width: 40%;
+  width: 50%;
   background: cornflowerblue;
   padding: 30px;
 }
 
 .about-app {
-  width: 60%;
+  width: 50%;
   min-height: 500px;
   background: white;
   padding: 30px;
@@ -622,21 +623,32 @@
 
 .about-me p,
 .about-app p {
-  font-size: 14px;
+
   margin: 10px 0;
+  font-size: 0.85rem;
+}
+
+.about-app .tech-header {
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
 }
 
 .about-app .tech {
+  list-style-type: none;
   display: flex;
-  justify-content: space-between;
   flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
-.tech-sec {
-  width: 30%;
-  min-width: 170px;
-  max-width: 220px;
-  margin: 5px 10px;
+.about-app .tech li {
+  background-color: #fefce8;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.35rem;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 500;
+  color: #b45309;
+  border: 1px solid #fde68a;
 }
 
 .about-me h3 {
@@ -671,19 +683,6 @@
 
 .about-me .social .contact a:hover {
   color: #9a031e;
-}
-
-.tech-sec h3 {
-  font-weight: 500;
-  font-size: 16px;
-}
-
-.tech-sec ul {
-  list-style: none;
-}
-
-.tech-sec ul li {
-  font-size: 14px;
 }
 
 .restaurants-page {
@@ -813,13 +812,13 @@
 
 
 .restaurant-card {
-  min-height: 300px;
+  min-height: 280px;
   width: 20%;
   min-width: 200px;
   max-width: 235px;
   border-radius: 5px;
   margin: 15px;
-  background: #e9ecef;
+  background-color: #fafafa;
   overflow: hidden;
   transition: 0.5s;
 }
@@ -850,6 +849,15 @@
   font-size: 12px;
   margin: 5px 0;
   font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.restaurant-card .details p+p {
+  margin-top: 0.5rem;
+  white-space: wrap;
+  text-overflow: clip;
 }
 
 .price-cuisine .price-range {
@@ -976,7 +984,7 @@
   }
 
   .about-container {
-    width: 80%;
+    width: 70%;
     flex-direction: column;
   }
 
@@ -1061,13 +1069,16 @@
   .restaurant-card {
     margin: 10px;
     width: 35%;
-    min-height: 270px;
     min-width: 200px;
     max-width: 220px;
   }
 
   .restaurant-card .image {
     height: 135px;
+  }
+
+  .about-container {
+    width: 85%;
   }
 }
 
@@ -1132,7 +1143,6 @@
   .restaurant-card {
     margin: 8px;
     width: 45%;
-    min-height: 280px;
     min-width: 160px;
     max-width: 200px;
   }

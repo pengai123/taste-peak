@@ -16,52 +16,36 @@ export default function About() {
       <div className="about-container">
         <div className="about-app">
           <h1>About App</h1>
-          <p>This application is a full stack project for self practice purpose. The frontend is built with react and vanilla CSS for self practice, all the components are responsive and display well on devices of all sizes. The backend is built with Node, Express and MongoDB Atlas as database. It uses JSON web token and cookie for authentication so you can actually sign up, log in and log out. Passwords are encrypted with bcrypt before being stored into database to ensure account security.</p>
-          <p>Front End is hosted with Netlify, Back end is hosted with Heroku.</p>
-          <p>Please feel free to play with this application! Thank You!</p>
-          <h2>Technologies Used</h2>
-          <div className="tech">
-            <div className="frontend tech-sec">
-              <h3>Front End</h3>
-              <ul>
-                <li>JavaScript</li>
-                <li>React</li>
-                <li>HTML5</li>
-                <li>CSS3</li>
-                <li>JavaScript XML (JSX)</li>
-              </ul>
-            </div>
-            <div className="backend tech-sec">
-              <h3>Back End</h3>
-              <ul>
-                <li>Node</li>
-                <li>Express</li>
-                <li>REST API</li>
-                <li>MongoDB Atlas</li>
-                <li>Cookie</li>
-                <li>JSON Web Token</li>
-              </ul>
-            </div>
-            <div className="other tech-sec">
-              <h3>Other Technologies</h3>
-              <ul>
-                <li>Webpack</li>
-                <li>Babel</li>
-                <li>Heroku</li>
-                <li>Netlify</li>
-                <li>Git</li>
-                <li>NPM</li>
-                <li>Agile Development</li>
-              </ul>
-            </div>
-          </div>
+          <p>This is a full stack application for self practice purpose. The frontend is built with react.js and vanilla CSS, all the components are responsive and display properly on devices of all sizes. The backend is built with Node.js, Express.js and MongoDB as database. It uses JSON web token and cookie for authentication so you can actually sign up, log in and log out. Passwords are encrypted with bcrypt before being stored in database to ensure account security.</p>
+          <p>Feel free to play around! Thank You!</p>
+          <h3 className='tech-header'>What Are Used</h3>
+          <ul className='tech'>
+            <li>JavaScript</li>
+            <li>React.js</li>
+            <li>HTML5</li>
+            <li>CSS3</li>
+            <li>JavaScript XML (JSX)</li>
+            <li>Node.js</li>
+            <li>Express.js</li>
+            <li>REST API</li>
+            <li>MongoDB</li>
+            <li>Cookie</li>
+            <li>JWT</li>
+            <li>Webpack</li>
+            <li>Babel</li>
+            <li>Heroku</li>
+            <li>Netlify</li>
+            <li>Git</li>
+            <li>NPM</li>
+            <li>Agile Development</li>
+          </ul>
         </div>
         <div className="about-me">
           <h1>About Me</h1>
           <h2>Peng Ai</h2>
           <h3 className="tittle">Software Engineer - Full Stack</h3>
           <h3 className="location"><i className="fas fa-map-marker-alt icon"></i>Phoenix, Arizona, United States</h3>
-          <p>I am a full stack software engineer with strong passion for new technologies and new challenges.</p>
+          <p>I am a passionate and experienced full stack software engineer with a deep appreciation for both the frontend and backend aspects of web development. With a strong foundation in modern technologies and a keen eye for user-centric design, I thrive in creating seamless, responsive, and intuitive web applications.</p>
           <h2>Contact Me</h2>
           <div className="social">
             <div className="contact linkedin">
@@ -70,7 +54,7 @@ export default function About() {
             </div>
             <div className="contact email">
               <i className="far fa-envelope icon"></i>
-              <a href="mailto:aaaipeng@gmail.com">aaaipeng@gmail.com</a>
+              <a href="mailto:pengai002@gmail.com">pengai002@gmail.com</a>
             </div>
           </div>
           <h2>My Skills</h2>
