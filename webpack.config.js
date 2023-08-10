@@ -23,7 +23,7 @@ module.exports = {
     extensions: [".js", ".jsx"]
   },
   performance: {
-    maxAssetSize: 50000,
-    maxEntrypointSize: 50000,
+    maxEntrypointSize: 512000,
+    maxAssetSize: 512000
   }
 };
