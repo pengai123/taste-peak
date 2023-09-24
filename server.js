@@ -10,6 +10,7 @@ const path = require('path')
 const APPDIR = path.resolve()
 const { Account } = require("./database/index")
 const cors = require("cors")
+const res = require('express/lib/response.js')
 if (process.env.NODE_ENV === 'development') {
   require('dotenv').config();
 }
@@ -125,6 +126,8 @@ app.get("/api/restaurants/:loc", async (req, res) => {
 if (process.env.NODE_ENV === 'development') {
   app.use(express.static(path.join(APPDIR, 'client/dist')))
   app.get('*', (req, res) => res.sendFile(path.join(APPDIR, 'client/dist/index.html')))
+} else {
+  app.get('/', (req, res) => res.status(200).send('taste peak api'))
 }
 
 app.listen(PORT, () => console.log(`server is listening on port ${PORT}...`))
