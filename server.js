@@ -10,7 +10,6 @@ const path = require('path')
 const APPDIR = path.resolve()
 const { Account } = require("./database/index")
 const cors = require("cors")
-const res = require('express/lib/response.js')
 if (process.env.NODE_ENV === 'development') {
   require('dotenv').config();
 }
