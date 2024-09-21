@@ -48,7 +48,8 @@ export default function Nav() {
 
   const handleLogout = async () => {
     try {
-      const logoutUrl = process.env.NODE_ENV === 'development' ? '/api/logout' : 'https://api.tastepeak.com/api/logout'
+      // const logoutUrl = process.env.NODE_ENV === 'development' ? '/api/logout' : 'https://api.tastepeak.com/api/logout'
+      const logoutUrl = '/api/logout'
       const { data } = await axios.get(logoutUrl, { withCredentials: true })
       if (data.status === "success") {
         setCurrentUser(null);

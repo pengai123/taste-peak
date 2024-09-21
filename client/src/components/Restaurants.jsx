@@ -34,7 +34,8 @@ export default function Restaurants({ match }) {
   const search = async (loc = defaultLocation, kw = "") => {
     setIsLoading(true);
     try {
-      const restaurantUrl = process.env.NODE_ENV === 'development' ? `/api/restaurants/${loc}?kw=${kw}` : `https://api.tastepeak.com/api/restaurants/${loc}?kw=${kw}`
+      // const restaurantUrl = process.env.NODE_ENV === 'development' ? `/api/restaurants/${loc}?kw=${kw}` : `https://api.tastepeak.com/api/restaurants/${loc}?kw=${kw}`
+      const restaurantUrl = `/api/restaurants/${loc}?kw=${kw}`
       const { data } = await axios.get(restaurantUrl, { withCredentials: true })
       if (data.length > 0) {
         setRestaurants(data)

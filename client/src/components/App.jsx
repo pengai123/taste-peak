@@ -22,7 +22,8 @@ export default function App() {
 
   const fetchUser = async () => {
     try {
-      const userUrl = process.env.NODE_ENV === 'development' ? '/api/current-user' : 'https://api.tastepeak.com/api/current-user'
+      // const userUrl = process.env.NODE_ENV === 'development' ? '/api/current-user' : 'https://api.tastepeak.com/api/current-user'
+      const userUrl = '/api/current-user'
       const { data } = await axios.get(userUrl, { withCredentials: true })
       console.log('user info:', data)
       setCurrentUser(data.username)

@@ -108,12 +108,12 @@ app.get("/api/restaurants/:loc", async (req, res) => {
   const keyword = req.query.kw
   try {
     // get location data
-    const result = await axios.get(`https://geocode.maps.co/search?q=${loc}`)
-    const location = result.data[0]
+    const result = await axios.get(`http://api.positionstack.com/v1/forward?access_key=${process.env.POSITIONSTACK_API_KEY}&query=${loc}`)
+    const location = result.data.data[0]
 
     if (!location) return res.status(HTTPStatus.BAD_REQUEST).json({ message: "Can't find this location." })
     // get restaurant data with location 
-    const { data: { restaurants } } = keyword ? await axios.get(`https://api.spoonacular.com/food/restaurants/search?apiKey=${process.env.SPOONACULAR_API_KEY}&lat=${location.lat}&lng=${location.lon}&cuisine=${keyword}`) : await axios.get(`https://api.spoonacular.com/food/restaurants/search?apiKey=${process.env.SPOONACULAR_API_KEY}&lat=${location.lat}&lng=${location.lon}`)
+    const { data: { restaurants } } = keyword ? await axios.get(`https://api.spoonacular.com/food/restaurants/search?apiKey=${process.env.SPOONACULAR_API_KEY}&lat=${location.latitude}&lng=${location.longitude}&cuisine=${keyword}`) : await axios.get(`https://api.spoonacular.com/food/restaurants/search?apiKey=${process.env.SPOONACULAR_API_KEY}&lat=${location.latitude}&lng=${location.longitude}`)
     const filtered = restaurants.filter((r) => r.address.city.toLowerCase() === loc.toLowerCase())
     res.json(filtered)
   } catch (error) {
@@ -122,11 +122,11 @@ app.get("/api/restaurants/:loc", async (req, res) => {
   }
 })
 
-if (process.env.NODE_ENV === 'development') {
-  app.use(express.static(path.join(APPDIR, 'client/dist')))
-  app.get('*', (req, res) => res.sendFile(path.join(APPDIR, 'client/dist/index.html')))
-} else {
-  app.get('/', (req, res) => res.status(200).send('taste peak api'))
-}
+// if (process.env.NODE_ENV === 'development') {
+app.use(express.static(path.join(APPDIR, 'client/dist')))
+app.get('*', (req, res) => res.sendFile(path.join(APPDIR, 'client/dist/index.html')))
+// } else {
+//   app.get('/', (req, res) => res.status(200).send('taste peak api'))
+// }
 
 app.listen(PORT, () => console.log(`server is listening on port ${PORT}...`))

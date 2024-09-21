@@ -15,7 +15,8 @@ export default function Login({ history }) {
       return setFormMsg("Please complete the form before submitting")
     }
     try {
-      const loginUrl = process.env.NODE_ENV === 'development' ? '/api/login' : 'https://api.tastepeak.com/api/login'
+      // const loginUrl = process.env.NODE_ENV === 'development' ? '/api/login' : 'https://api.tastepeak.com/api/login'
+      const loginUrl = '/api/login'
       const { data } = await axios.post(loginUrl, { username, password }, { withCredentials: true })
       setCurrentUser(data.data.username)
       history.push("/")
